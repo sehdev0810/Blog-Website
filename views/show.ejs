@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= post.title %>
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 min-h-screen text-gray-800 text-center">
+    <nav class="bg-gray-800 p-4 shadow-lg mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/posts" class="text-2xl font-extrabold text-yellow-300">Blog App</a>
+            <div class="space-x-4">
+                <a href="/posts" class="text-lg text-gray-300 hover:text-white">Home</a>
+                <a href="/posts/new" class="text-lg text-gray-300 hover:text-white">Add Post</a>
+                <a href="/logout" class="text-lg text-gray-300 hover:text-white">Logout</a>
+            </div>
+            <form action="/search" method="GET" class="ml-4">
+                <input type="text" name="q" placeholder="Search..." class="px-3 py-2 rounded-md bg-gray-200 text-black"
+                    required>
+                <button type="submit"
+                    class="px-3 py-2 rounded-md bg-yellow-500 text-black hover:bg-yellow-400">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold mb-4"><a href="/posts" class="hover:text-yellow-300">Blog App</a></h1>
+        </header>
+        <main>
+            <div class="p-8 bg-gray-300 rounded-lg shadow-lg w-2/5 mx-auto">
+                <h2 class="text-4xl text-blue-800 font-bold mb-4">
+                    <%= post.title %>
+                </h2>
+                <p class="mb-8 text-2xl leading-relaxed">
+                    <%= post.content %>
+                </p>
+                <% if (post.imageUrl) { %>
+                    <div class="mb-8 leading-relaxed">
+                        <img src="<%= post.imageUrl %>" alt="Post Image" class="h-64 w-64 rounded-lg mx-auto">
+                    </div>
+                    <% } %>
+                        <div class="flex space-x-2">
+                            <a href="/posts/<%= post._id %>/edit"
+                                class="bg-yellow-500 text-gray-900 px-8 py-2 rounded-lg text-xl ml-24 mr-4 font-semibold shadow-lg hover:bg-yellow-400">
+                                Edit</a>
+                            <form action="/posts/<%= post._id %>?_method=DELETE" method="POST" class="inline">
+                                <button
+                                    class="bg-red-500 text-gray-900 px-8 py-2 rounded-lg text-xl font-semibold shadow-lg hover:bg-red-400">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                        <form action="/posts/<%= post._id %>/comments" method="POST" class="mt-6">
+                            <input type="text" name="comment[author]" placeholder="Your name"
+                                class="border p-2 rounded-lg mb-2 w-full" required>
+                            <textarea name="comment[text]" placeholder="Your comment"
+                                class="border p-2 rounded-lg w-full" required></textarea>
+                            <button type="submit"
+                                class="bg-blue-500 text-white p-2 rounded-lg mt-4 mb-5">Comment</button>
+                        </form>
+                        <h2 class="text-2xl font-semibold mb-4 text-pink-700">Previous Comments</h2>
+                        <% if (post.comments.length===0) { %>
+                            <p class="text-gray-600">No comments yet. Be the first to comment!</p>
+                            <% } else { %>
+                                <% post.comments.forEach(comment=> { %>
+                                    <div class="mb-6 mx-auto p-4 bg-gray-200 rounded-lg shadow-md w-fit">
+                                        <p class="font-bold text-left">
+                                            <%= comment.author %>
+                                        </p>
+                                        <p class="text-gray-700 text-left">
+                                            <%= comment.text %>
+                                        </p>
+                                        <div class="flex space-x-4 mt-4">
+                                            <a href="/posts/<%= post._id %>/comments/<%= comment._id %>/edit"
+                                                class="bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg text-lg font-semibold shadow-lg hover:bg-yellow-400">Edit</a>
+                                            <form
+                                                action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE"
+                                                method="POST" class="inline">
+                                                <button
+                                                    class="bg-red-500 text-gray-900 px-4 py-2 rounded-lg text-lg font-semibold shadow-lg hover:bg-red-400">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                                        <% } %>
+                                            <a href="/posts"
+                                                class="block mt-8 text-lg font-semibold underline hover:text-gray-500">Back
+                                                to All Posts</a>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

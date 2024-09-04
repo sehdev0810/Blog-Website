@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Blog App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 min-h-screen text-gray-200">
+    <nav class="bg-gray-800 p-4 shadow-lg mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/posts" class="text-2xl font-extrabold text-yellow-300">Blog App</a>
+            <div class="space-x-4">
+                <a href="/posts" class="text-lg text-gray-300 hover:text-white">Home</a>
+                <a href="/posts/new" class="text-lg text-gray-300 hover:text-white">Add Post</a>
+                <a href="/logout" class="text-lg text-gray-300 hover:text-white">Logout</a>
+            </div>
+            <form action="/search" method="GET" class="ml-4">
+                <input type="text" name="q" placeholder="Search..." class="px-3 py-2 rounded-md bg-gray-200 text-black"
+                    required>
+                <button type="submit"
+                    class="px-3 py-2 rounded-md bg-yellow-500 text-black hover:bg-yellow-400">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold mb-4 text-blue-800">Search Results for "<%= query %>"</h1>
+        </header>
+
+        <main>
+            <% if (posts.length> 0) { %>
+                <ul class="space-y-4">
+                    <% posts.forEach(post=> { %>
+                        <li
+                            class="cursor-pointer p-6 bg-gray-300 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out">
+                            <a href="/posts/<%= post._id %>"
+                                class="text-2xl font-bold text-indigo-950 hover:text-gray-600 transition duration-200">
+                                <%= post.title %> - <span class="text-sm text-gray-700">
+                                        <%= post.category %>
+                                    </span>
+                            </a>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } else { %>
+                    <p class="text-center text-xl">No posts found matching your search.</p>
+                    <% } %>
+        </main>
+    </div>
+</body>
+
+</html>

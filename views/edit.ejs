@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 min-h-screen text-gray-200">
+    <nav class="bg-gray-800 p-4 shadow-lg mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/posts" class="text-2xl font-extrabold text-yellow-300">Blog App</a>
+            <div class="space-x-4">
+                <a href="/posts" class="text-lg text-gray-300 hover:text-white">Home</a>
+                <a href="/posts/new" class="text-lg text-gray-300 hover:text-white">Add Post</a>
+                <a href="/logout" class="text-lg text-gray-300 hover:text-white">Logout</a>
+            </div>
+            <form action="/search" method="GET" class="ml-4">
+                <input type="text" name="q" placeholder="Search..." class="px-3 py-2 rounded-md bg-gray-200 text-black"
+                    required>
+                <button type="submit"
+                    class="px-3 py-2 rounded-md bg-yellow-500 text-black hover:bg-yellow-400">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold mb-4 text-gray-800"><a href="/" class="hover:text-yellow-300">Blog App</a></h1>
+        </header>
+        <main class="flex flex-row items-center justify-items-center">
+            <div class="p-8 bg-gray-600 mt-14 rounded-lg shadow-lg ml-10 w-4/5">
+                <h2 class="text-3xl font-semibold mb-6">Edit Post</h2>
+
+                <form action="/posts/<%= post._id %>?_method=PUT" method="POST">
+                    <div class="mb-6">
+                        <label for="title" class="block text-sm font-bold mb-2">Title</label>
+                        <input type="text" id="title" name="post[title]" value="<%= post.title %>"
+                            class="w-full p-3 rounded-lg border border-gray-300 text-gray-800 focus:ring-2 focus:ring-teal-500">
+                    </div>
+                
+                    <div class="mb-6">
+                        <label for="content" class="block text-sm font-bold mb-2">Content</label>
+                        <textarea id="content" name="post[content]"
+                            class="w-full p-3 rounded-lg border border-gray-300 text-gray-800 focus:ring-2 focus:ring-teal-500"><%= post.content %></textarea>
+                    </div>
+                
+                    <div class="mb-6">
+                        <label for="imageUrl" class="block text-sm font-bold mb-2">Image URL</label>
+                        <input type="text" id="imageUrl" name="post[imageUrl]" value="<%= post.imageUrl %>"
+                            class="w-full p-3 rounded-lg border border-gray-300 text-gray-800 focus:ring-2 focus:ring-teal-500">
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="category" class="block text-sm font-bold mb-2">Category</label>
+                        <select id="category" name="post[category]"
+                            class="w-full p-3 rounded-lg border border-gray-300 text-gray-800 focus:ring-2 focus:ring-teal-500">
+                            <option value="Travel" <%=post.category==='Travel' ? 'selected' : '' %>>Travel</option>
+                            <option value="Fashion" <%=post.category==='Fashion' ? 'selected' : '' %>>Fashion</option>
+                            <option value="Social Media" <%=post.category==='Social Media' ? 'selected' : '' %>>Social Media</option>
+                            <option value="Education" <%=post.category==='Education' ? 'selected' : '' %>>Education</option>
+                            <!-- Add more categories as needed -->
+                        </select>
+                    </div>
+
+                
+                    <button type="submit"
+                        class="bg-yellow-500 text-gray-900 px-6 py-3 rounded-full text-lg font-semibold shadow-lg hover:bg-yellow-400">
+                        Update Post
+                    </button>
+                </form>
+
+
+                <a href="/posts/<%= post._id %>" class="block mt-8 text-lg font-semibold hover:text-yellow-300">Back to
+                    Post</a>
+            </div>
+            <div class="hidden md:block">
+                <img src="/images/edit.png" alt="New Post Image" class="ml-60 w-3/5 h-4/5 mx-auto rounded-lg">
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
